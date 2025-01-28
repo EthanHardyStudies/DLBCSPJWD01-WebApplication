@@ -1,10 +1,10 @@
 // app.js
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
+import { MatToolbarModule } from '@angular/material/toolbar';
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [MatToolbarModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
