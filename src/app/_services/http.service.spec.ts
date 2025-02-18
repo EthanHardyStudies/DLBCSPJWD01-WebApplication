@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DalService } from './dal.service';
+import { httpService } from './http.service';
 
 describe('DalService', () => {
-  let service: DalService;
+  let service: httpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DalService);
+    service = TestBed.inject(httpService);
   });
 
   it('should be created', () => {
