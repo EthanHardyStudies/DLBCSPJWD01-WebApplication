@@ -5,6 +5,12 @@ import { Router } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../_services/auth.service';
 import { httpService } from '../_services/http.service';
+import { environment } from '../../environments/environment';
+
+class loginResponseMessage {
+  user: JSON[] = [];
+  token: string = '';
+}
 
 @Component({
   selector: 'app-login',
@@ -23,22 +29,29 @@ export class LoginComponent {
     ) { }
 
   onSubmit(user: string, pass: string) {
-    if (user && pass) {
-      let body = '{ "username": "' + user +'", "password": "' + pass + '"}';
-      var url = "http://localhost:3000/login"
-      
-      this.http.loginPost(url, JSON.parse(body)).subscribe(
-        data => {
-          if (data.status === 200){
-            this.auth.setToken(data.message);
-            this.router.navigate(['/book-list'])
-            console.log('Login successful');
+    try {
+      if (user && pass) {
+        let body = '{ "username": "' + user +'", "password": "' + pass + '"}';
+        var url = environment.baseUrl + "login"
+        
+        this.http.loginPost(url, JSON.parse(body), user, pass).subscribe(
+          data => {
+            if (data.status === 200){
+              var body = new loginResponseMessage();
+              body = Object.assign(data.message)
+              this.auth.setToken(body.token);
+              console.log('Login successful');
+              this.router.navigate(['/booklist'])
+            }
+            else('Login Unsuccessful, please try again.')
           }
-          else('Login Unsuccessful, please try again.')
-        }
-      )
-    } else {
-      console.log('Please enter valid credentials');
+        )
+      } else {
+        console.log('Please enter valid credentials');
+      }
+    }catch (err: any){
+      console.log('Error in login process: ' + JSON.stringify(err.message));
     }
+
   }
 }

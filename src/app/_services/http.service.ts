@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { JsonPipe } from '@angular/common';
 
 export interface Response {
   status: number,
-  message: string
+  message: any
 }
 
 @Injectable({
@@ -19,15 +19,17 @@ export class httpService {
     private authService: AuthService
   ) { }
 
-  genericGet(url: string) {
+  genericGet(url: string, user: string) {
     const authToken = this.authService.getToken();
     var token = ""
     if (authToken){ token = authToken}
+    let reqParams = new HttpParams()
+    reqParams = reqParams.set("userID", user)
 
     let reqHeaders = new HttpHeaders()
     reqHeaders = reqHeaders.append("Authorization", "Bearer " + token);
     reqHeaders = reqHeaders.append("Content-Type", "application/json");
-    let response = this.http.post<Response>(url, { headers: reqHeaders })
+    let response = this.http.get<Response>(url, { headers: reqHeaders })
     return response;
   }
 
@@ -43,10 +45,11 @@ export class httpService {
     return response;
   }
 
-  loginPost(url: string, body: JSON){
+  loginPost(url: string, body: JSON, user: string, pass: string){
     let reqHeaders = new HttpHeaders()
     reqHeaders = reqHeaders.append("Content-Type", "application/json");
-    let response = this.http.post<Response>(url, body)
+    reqHeaders = reqHeaders.append("Authorization", "Basic " + btoa(user + ":" + pass));
+    let response = this.http.post<Response>(url, body, { headers: reqHeaders })
     return response;
   }
 }

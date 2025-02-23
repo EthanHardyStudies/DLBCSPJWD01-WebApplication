@@ -1,5 +1,9 @@
+<main class="main"></main>
 <!DOCTYPE html>
 <html lang="en">
+<mat-toolbar>
+  <span>My Book Wishlist!</span>
+</mat-toolbar>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +11,7 @@
 </head>
 <body>
   <div class="login-container">
-    <form (ngSubmit)="onSubmit(username,password)" #loginForm="ngForm">
+    <form (ngSubmit)="onSubmit(username, password, firstName, lastName, email, age)" #loginForm="ngForm">
       <h2>Registration</h2>
       <div class="form-group">
         <label for="firstName">First Name</label>
