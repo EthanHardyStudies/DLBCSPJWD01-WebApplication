@@ -9,9 +9,74 @@ body {
   }
 
 .booklist-table{
-    background: white;
+    background: rgb(115, 164, 238);
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 80%;
+    width: 90%;
+    height: 70%;
+    margin-bottom: 5%;
+}
+.toolbar{
+  background: rgb(115, 164, 238);
+}
+.spacer {
+  flex: 1 1 auto;
+}
+.title-span{
+  padding: 2rem;
+}
+.overflow-icon{
+  background: white;
+}
+.log-out{
+  background: white;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.exit-text{
+  font-size: small;
+  padding-right: 1rem;
+  margin-bottom: 10%;
+}
+.log-out-container{
+  justify-content: center;
+  border:rgba(0, 0, 0, 0.1);
+}
+.booklist-controls{
+  justify-content: center;
+  box-shadow: inset;
+}
+.add-book{
+  background: white;
+  align-items: center;
+  margin-left: 95%;
+}
+.dialog-button {
+  width: auto;
+  padding: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: auto;
+}
+.form-group {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  margin: auto;
+  justify-content: center;
+}
+.add-book-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+.dialog-book{
+  background: rgb(255, 255, 255);
+  padding: 2rem;
+  width: auto; 
+  justify-content: center;
 }

@@ -1,8 +1,18 @@
 <main class="main"></main>
 <!DOCTYPE html>
 <html lang="en">
-  <mat-toolbar>
-    <span>My Book Wishlist!</span>
+  <mat-toolbar class="toolbar">
+    <button mat-icon-button class="overflow-icon" aria-label="Menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="title-span">My Book Wishlist!</span>
+    <span class="spacer"></span>
+    <div class="log-out-container">    
+      <button mat-icon-button class="log-out" aria-label="Click to log out">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+      <div class="exit-text">Log Out</div>
+    </div>
   </mat-toolbar>
   <head>
     <meta charset="UTF-8">
@@ -11,6 +21,12 @@
   </head>
   <body>
     <div class="booklist-table">
+      <div class="booklist-controls">
+        <mat-icon>book</mat-icon>
+        <button mat-icon-button class="add-book" aria-label="Add new book" (click)="OpenAddBookDialog()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
         <table mat-table [dataSource]="Books">
 
         </table>

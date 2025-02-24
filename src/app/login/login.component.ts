@@ -36,9 +36,9 @@ export class LoginComponent {
         
         this.http.loginPost(url, JSON.parse(body), user, pass).subscribe(
           data => {
-            if (data.status === 200){
+            if (data.status === true){
               var body = new loginResponseMessage();
-              body = Object.assign(data.message)
+              body = Object.assign(data.data)
               this.auth.setToken(body.token);
               console.log('Login successful');
               this.router.navigate(['/booklist'])

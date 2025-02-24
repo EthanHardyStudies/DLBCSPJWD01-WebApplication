@@ -5,8 +5,8 @@ import { HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
 
 export interface Response {
-  status: number,
-  message: any
+  status: boolean,
+  data: any
 }
 
 @Injectable({

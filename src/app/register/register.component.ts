@@ -24,7 +24,7 @@ export class RegisterComponent {
     firstName: string = '';
     lastName: string = '';
     email: string = '';
-    age: string = '';
+    age: number = 0;
     
       constructor(
         private http: httpService,
@@ -32,16 +32,16 @@ export class RegisterComponent {
         private router: Router
       ) { }
   
-    onSubmit(user: string, pass: string, firstName: string, lastName: string, email: string, age: string) {
+    onSubmit(user: string, pass: string, firstName: string, lastName: string, email: string, age: number) {
       if (user && pass) {
-        let body = '{ "username": "' + user + '", "password": "' + pass + '", "firstName": "' + firstName + '", "lastName": "' + lastName + '", "email": "' + email + '", "age": "' + age + '"}';
+        let body = '{ "username": "' + user + '", "password": "' + pass + '", "firstName": "' + firstName + '", "lastName": "' + lastName + '", "email": "' + email + '", "age": ' + age + '}';
         var url = environment.baseUrl + "signup"         
         
         this.http.loginPost(url, JSON.parse(body), user, pass).subscribe(
           data => {
-            if (data.status === 200){
+            if (data.status === true){
               var body = new registerResponseMessage();
-              body = Object.assign(data.message)
+              body = Object.assign(data.data)
               this.auth.setToken(body.token);
               console.log('Registration successful');
               this.router.navigate(['/booklist'])
