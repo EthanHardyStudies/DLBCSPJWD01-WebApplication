@@ -6,9 +6,20 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../_services/auth.service';
 import { httpService } from '../_services/http.service';
 import { environment } from '../../environments/environment';
+import { UserService } from '../_services/user-storage.service';
+
+class userObject{
+  _id: string = '';
+  username: string = '';
+  email: string = '';
+  age: number = 0;
+  firstName: string = '';
+  lastName: string = '';
+  role: string = '';
+}
 
 class loginResponseMessage {
-  user: JSON[] = [];
+  user: string = '';
   token: string = '';
 }
 
@@ -25,6 +36,7 @@ export class LoginComponent {
     constructor(
       private http: httpService,
       private auth: AuthService,
+      private user: UserService,
       private router: Router
     ) { }
 
@@ -39,11 +51,18 @@ export class LoginComponent {
             if (data.status === true){
               var body = new loginResponseMessage();
               body = Object.assign(data.data)
+
+              var user = new userObject();
+              user = Object.assign(JSON.parse(body.user.replace('[', '').replace(']', '')));
+
               this.auth.setToken(body.token);
+              this.user.setUser(user._id);
               console.log('Login successful');
               this.router.navigate(['/booklist'])
             }
-            else('Login Unsuccessful, please try again.')
+            else{
+              'Login Unsuccessful, please try again.'
+            }
           }
         )
       } else {
