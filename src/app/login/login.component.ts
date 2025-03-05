@@ -7,6 +7,7 @@ import { AuthService } from '../_services/auth.service';
 import { httpService } from '../_services/http.service';
 import { environment } from '../../environments/environment';
 import { UserService } from '../_services/user-storage.service';
+import { BooksService } from '../_services/books.service';
 
 class userObject{
   _id: string = '';
@@ -37,17 +38,18 @@ export class LoginComponent {
       private http: httpService,
       private auth: AuthService,
       private user: UserService,
-      private router: Router
+      private router: Router,
+      public book: BooksService
     ) { }
 
-  onSubmit(user: string, pass: string) {
+  async onSubmit(user: string, pass: string) {
     try {
       if (user && pass) {
         let body = '{ "username": "' + user +'", "password": "' + pass + '"}';
         var url = environment.baseUrl + "login"
         
-        this.http.loginPost(url, JSON.parse(body), user, pass).subscribe(
-          data => {
+        await this.http.loginPost(url, JSON.parse(body), user, pass).subscribe(
+          async data => {
             if (data.status === true){
               var body = new loginResponseMessage();
               body = Object.assign(data.data)
@@ -58,7 +60,9 @@ export class LoginComponent {
               this.auth.setToken(body.token);
               this.user.setUser(user._id);
               console.log('Login successful');
-              this.router.navigate(['/booklist'])
+              await this.book.getBooks();
+              this.router.navigate(['/booklist']);
+              
             }
             else{
               'Login Unsuccessful, please try again.'

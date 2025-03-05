@@ -80,3 +80,7 @@ body {
   width: auto; 
   justify-content: center;
 }
+.main-book-list{
+  margin-top: 1rem;
+  padding: 1rem;
+}

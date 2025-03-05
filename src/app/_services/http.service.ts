@@ -19,7 +19,7 @@ export class httpService {
     private authService: AuthService
   ) { }
 
-  genericGet(url: string, user: string) {
+  genericGet(url: string, user: any) {
     const authToken = this.authService.getToken();
     var token = ""
     if (authToken){ token = authToken}
@@ -29,7 +29,7 @@ export class httpService {
     let reqHeaders = new HttpHeaders()
     reqHeaders = reqHeaders.append("Authorization", "Bearer " + token);
     reqHeaders = reqHeaders.append("Content-Type", "application/json");
-    let response = this.http.get<Response>(url, { headers: reqHeaders })
+    let response = this.http.get<Response>(url, { headers: reqHeaders, params: reqParams })
     return response;
   }
 
@@ -39,7 +39,7 @@ export class httpService {
     if (authToken){ token = authToken}
 
     let reqHeaders = new HttpHeaders()
-    reqHeaders = reqHeaders.append("Authorization", token);
+    reqHeaders = reqHeaders.append("Authorization", 'Bearer ' + token);
     reqHeaders = reqHeaders.append("Content-Type", "application/json");
     let response = this.http.post<Response>(url, body, { headers: reqHeaders })
     return response;
