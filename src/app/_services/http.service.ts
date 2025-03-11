@@ -45,6 +45,20 @@ export class httpService {
     return response;
   }
 
+  genericDelete(url: string, id: string){
+    const authToken = this.authService.getToken();
+    var token = ""
+    if (authToken){ token = authToken}
+    let reqParams = new HttpParams()
+    reqParams = reqParams.set("id", id)
+
+    let reqHeaders = new HttpHeaders()
+    reqHeaders = reqHeaders.append("Authorization", "Bearer " + token);
+    reqHeaders = reqHeaders.append("Content-Type", "application/json");
+    let response = this.http.delete<Response>(url, { headers: reqHeaders, params: reqParams })
+    return response;
+  }
+
   loginPost(url: string, body: JSON, user: string, pass: string){
     let reqHeaders = new HttpHeaders()
     reqHeaders = reqHeaders.append("Content-Type", "application/json");

@@ -1,0 +1,34 @@
+.form-group {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    margin: auto;
+    justify-content: center;
+  }
+  .add-book-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+  .add-book{
+    background: white;
+    align-items: center;
+    margin-left: 95%;
+    border-radius: 10%;
+  }
+  .dialog-book{
+    background: rgb(255, 255, 255);
+    padding: 2rem;
+    width: auto; 
+    justify-content: center;
+  }
+  .dialog-button {
+    width: auto;
+    padding: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10%;
+    cursor: pointer;
+    margin: auto;
+  }

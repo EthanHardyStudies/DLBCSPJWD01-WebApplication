@@ -31,6 +31,8 @@ class loginResponseMessage {
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  subjectData!: boolean;
+  
   username: string = '';
   password: string = '';
 
@@ -39,20 +41,21 @@ export class LoginComponent {
       private auth: AuthService,
       private user: UserService,
       private router: Router,
-      public book: BooksService
+      private book: BooksService
     ) { }
 
-  async onSubmit(user: string, pass: string) {
+  onSubmit(user: string, pass: string) {
+    
     try {
       if (user && pass) {
         let body = '{ "username": "' + user +'", "password": "' + pass + '"}';
         var url = environment.baseUrl + "login"
         
-        await this.http.loginPost(url, JSON.parse(body), user, pass).subscribe(
-          async data => {
+        this.http.loginPost(url, JSON.parse(body), user, pass).subscribe(
+          data => {
             if (data.status === true){
               var body = new loginResponseMessage();
-              body = Object.assign(data.data)
+              body = Object.assign(data.data);
 
               var user = new userObject();
               user = Object.assign(JSON.parse(body.user.replace('[', '').replace(']', '')));
@@ -60,12 +63,7 @@ export class LoginComponent {
               this.auth.setToken(body.token);
               this.user.setUser(user._id);
               console.log('Login successful');
-              await this.book.getBooks();
               this.router.navigate(['/booklist']);
-              
-            }
-            else{
-              'Login Unsuccessful, please try again.'
             }
           }
         )

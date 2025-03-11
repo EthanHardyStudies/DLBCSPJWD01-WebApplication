@@ -10,6 +10,8 @@ import { UserService } from '../_services/user-storage.service';
 import { httpService } from '../_services/http.service';
 import { BooksService } from '../_services/books.service';
 import { Router } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { editBookDialog } from '../edit-book-dialog/edit-book-dialog.component'
 
 export interface DialogData {
   name: string;
@@ -25,7 +27,7 @@ class bookAddResponse {
 
 @Component({
   selector: 'app-booklist',
-  imports: [MatToolbarModule, MatTableModule, MatIconModule, MatFormFieldModule, MatDialogModule ],
+  imports: [MatToolbarModule, MatTableModule, MatIconModule, MatFormFieldModule, MatDialogModule, MatProgressSpinnerModule],
   templateUrl: './booklist.component.html',
   styleUrl: './booklist.component.css'
 })
@@ -40,21 +42,62 @@ export class BooklistComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'author', 'price', 'delete'];  
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
 
+  public booksStatus = "0";
+  public booksDeleteStatus = "0";
+  public booksData: any;
+
   ngOnInit(){
-    var bookString = localStorage.getItem("Books");
-    var Booklist = JSON.parse(bookString!)
-    for (let i = 0; i < Booklist.length; i++){
-      this.dataSource.data.push(Booklist[i])
-    };
-    
-    //this.dataSource.data = JSON.parse(bookString!);
-    this.dataSource.data.push()
+    this.book.booksStatus.subscribe(code => this.booksResponse(code));
+    this.book.booksDeleteStatus.subscribe(code => this.booksDeleteResponse(code));
+    this.book.getBooks();
+  }
+
+  booksResponse(code: string){
+
+    switch(code){
+      case "0":
+        break;
+      case "200":
+        this.booksData = this.book.booksData;
+        //build data source
+        this.dataSource.data = [...this.booksData];
+        break;
+      default:
+      //error handling
+        break;
+    }
+    this.booksStatus = code;
+  }
+
+  booksDeleteResponse(code: string){
+
+    switch(code){
+      case "0":
+        break;
+      case "200":
+        this.book.getBooks()
+        break;
+      default:
+        break;
+    }
+    this.booksStatus = code;
   }
 
   OpenAddBookDialog(): void {
     const dialogRef = this.dialog.open(addBookDialog, {
       width: '25%'
     })
+  }
+
+  OpenEditBookDialog(): void {
+    const dialogRef = this.dialog.open(editBookDialog, {
+      width: '25%'
+    })
+  }
+
+  DeleteBook(row: any): void {
+    var id = row._id
+    this.book.deleteBook(id)
   }
 
   logUserOut(): void {
