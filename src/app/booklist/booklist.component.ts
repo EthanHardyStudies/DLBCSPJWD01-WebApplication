@@ -107,7 +107,7 @@ export class BooklistComponent implements OnInit, AfterViewInit {
   //This method opens a dialog component for adding a new object
   OpenAddBookDialog(): void {
     const dialogRef = this.dialog.open(addBookDialog, {
-      width: '25%'
+      
     })
   }
 
@@ -115,7 +115,7 @@ export class BooklistComponent implements OnInit, AfterViewInit {
   OpenEditBookDialog(row: any): void {
     this.book.booksRow = row;
     const dialogRef = this.dialog.open(editBookDialog, {
-      width: '25%'
+      
     })
   }
 
