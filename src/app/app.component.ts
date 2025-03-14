@@ -17,11 +17,6 @@ export class AppComponent {
 })
 export class routerActions{
   constructor(location: Location, router: Router) {
-    // decide what to do when this event is triggered.
-    router.events.subscribe(val => {
-      if (location.pathname === "/booklist") {
-          // do something
-      }
-    });
+    
   }
 }

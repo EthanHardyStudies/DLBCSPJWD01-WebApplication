@@ -23,11 +23,15 @@ export class BooksService {
     private auth: AuthService
   ) { }
 
+  //This method calls an endpoint on the APi that returns all books linked to the user that is logged in.
   getBooks(): any {
+  //create url and userdata
   const url = environment.baseUrl + "book/all";
   var user = this.user.getUser();
+  //send to method in http service
   this.http.genericGet(url, user).subscribe(
     data => {
+      //if response is successful store the books in the service for use by other components
       if (data.status === true){
         var body = new bookResponse();
         body = Object.assign(data.data);
@@ -41,8 +45,12 @@ export class BooksService {
   )
   }
 
+  //This method calls an endpoint on the API that deletes a specific book.
   deleteBook(id: string): any {
+    //create url
     const url = environment.baseUrl + "book/removeBook";
+    
+    //send to method in http service
     this.http.genericDelete(url, id).subscribe(
       data => {
         if (data.status === true){

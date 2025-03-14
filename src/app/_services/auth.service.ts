@@ -7,7 +7,7 @@ export class AuthService {
   
   constructor() { }
 
-  // STORE the token in localstore:
+  // Save the token in localstorage:
 setToken(token:string){
 
   // First, serialize it (but just if token is not string type).
@@ -16,16 +16,14 @@ setToken(token:string){
   localStorage.setItem('token', tokenString);
 }
 
-// READ the token from localstorage and Deserialize
+// Read the token from localstorage and Deserialize
 getToken(): string | null{
 
-  let token = localStorage.getItem( 'token' );
-
-  if( token !=null){
-
-      // You just need to parse if you serialized it inside setToken() method
-      token = JSON.parse(token);
- }
+let token = localStorage.getItem( 'token' );
+ //Parse token if it was serialised when storing it in local storage
+if( token !=null){
+    token = JSON.parse(token);
+}
 
  return token;
 

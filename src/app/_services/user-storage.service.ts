@@ -7,22 +7,22 @@ export class UserService {
   userData: any;
   constructor() { }
 
+    //save the userid to local storage
   setUser(userID:string){
 
-    // First, serialize it (but just if token is not string type).
+    // Serialise the string
     const tokenString:string = JSON.stringify( userID );
   
     localStorage.setItem('userID', tokenString);
   }
   
-  // READ the token from localstorage and Deserialize
+  // Retrieve the userid from local storage
   getUser(): string | null{
   
     let userID = localStorage.getItem( 'userID' );
   
     if( userID !=null){
   
-        // You just need to parse if you serialized it inside setToken() method
         userID = JSON.parse(userID);
    }
   

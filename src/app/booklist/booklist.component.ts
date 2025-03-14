@@ -55,52 +55,63 @@ export class BooklistComponent implements OnInit, AfterViewInit {
   public booksDeleteStatus = "0";
   public booksData: any;
 
+  //This initialisation method: 
+  //1. Subscribes to behaviour subjects in the books service
+  //2. Retrieves objects linked to the logged in user
+  //3. saves those objects for use in the table data source
   ngOnInit(){
     this.book.booksStatus.subscribe(code => this.booksResponse(code));
     this.book.booksDeleteStatus.subscribe(code => this.booksDeleteResponse(code));
     this.book.getBooks();
   }
 
+  //This method add a paginator to the table after the components view has been initialised.
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
+
+  //When the booksStatus behaviour subject updates this method updates the data source for the table with the latest objet set
   booksResponse(code: string){
 
     switch(code){
-      case "0":
+      case "0": //default value means the objects are loading
         break;
-      case "200":
+      case "200": //success. Add objects to data source.
         this.booksData = this.book.booksData;
         //build data source
         this.dataSource.data = [...this.booksData];
         break;
-      default:
-      //error handling
+      default: //Every other value means an error
+        console.log("Retrieval request failed, try again.")
         break;
     }
     this.booksStatus = code;
   }
 
+  //when the book delete behaviour subject is updated this will trigger error handling if it failed or it will refresh the book list.
   booksDeleteResponse(code: string){
 
     switch(code){
-      case "0":
+      case "0": //default value means the books are loading
         break;
-      case "200":
+      case "200": //success. Retrieve latest object list
         this.book.getBooks()
         break;
-      default:
-        break;
+      default: //Every other value means an error
+        console.log("Deletion request failed, try again.")
+      break;
     }
     this.booksStatus = code;
   }
 
+  //This method opens a dialog component for adding a new object
   OpenAddBookDialog(): void {
     const dialogRef = this.dialog.open(addBookDialog, {
       width: '25%'
     })
   }
 
+  //This method opens a dialog component for editing a object
   OpenEditBookDialog(row: any): void {
     this.book.booksRow = row;
     const dialogRef = this.dialog.open(editBookDialog, {
@@ -108,17 +119,20 @@ export class BooklistComponent implements OnInit, AfterViewInit {
     })
   }
 
+    //This method opens a dialog component for editing the logged in user
   OpenEditUserDialog(): void {
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
       
     })
   }
 
+  //This method calls on the book service to delete the object
   DeleteBook(row: any): void {
     var id = row._id
     this.book.deleteBook(id)
   }
 
+  //This method clears local storage values and logs the user out
   logUserOut(): void {
     localStorage.clear();
     this.router.navigate(['/login']);
@@ -145,32 +159,34 @@ export class addBookDialog {
     private http: httpService,
     public book: BooksService) {}
 
+    //Closes the dialog
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  //Send a request to generic post method to insert a new object
   submitNewBook(name: string, description: string, author: string, price: number){
     if(name && description && author && price > -1){
+      //retrieve userid for api request
       const userID = this.user.getUser();
+      //create url and body
       let body = '{ "name": "' + name + '", "description": "' + description + '", "author": "' + author + '", "price": ' + price + ', "priceUnit": "rand", "userID": "' + userID + '"}';
       var url = environment.baseUrl + "book/addBook";
-      
+      //send to method in http service
       this.http.genericPost(url, body).subscribe(
-        data => {
+        data => {//process response data
           if (data.status === true){
             var body = new bookAddResponse();
             body = Object.assign(data.data)
 
-            //Add the returned book to the tables array.
-            
+            //retrieve latest books for data source            
             this.book.getBooks();
             console.log('Book added successfully');
             this.dialogRef.close();
-            location.reload()
           }
           else
           {
-            'Add book unsuccessful, please try again.'
+            console.log('Add book unsuccessful, please try again.');
           }
         }
       )

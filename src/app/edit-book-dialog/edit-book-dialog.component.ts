@@ -42,25 +42,28 @@ export class editBookDialog implements OnInit {
     private http: httpService,
     public book: BooksService) {};
 
-
+  // Sets values of the object to be edited 
   ngOnInit(): void {
     var selectedBook = this.book.booksRow;
     this.bookName = selectedBook.name;
     this.description = selectedBook.description;
     this.author = selectedBook.author;
     this.price = selectedBook.price;
-
   }
+
+      //Closes the dialog
   onNoClick(): void {
     this.dialogRef.close();
   }
 
+  //create and send request to API for object field updates
   submitBookUpdate(name: string, description: string, author: string, price: number){
     if(name && description && author && price > -1){
 
       var row = this.book.booksRow;
       const userID = this.user.getUser();
 
+      //create url and body
       let bookBody = {
         "name": name,
         "description": description,
@@ -70,23 +73,21 @@ export class editBookDialog implements OnInit {
         "userID": userID
       }
       var url = environment.baseUrl + "book/updateBook";
-      
+      //send to method in http service
       this.http.genericPatch(url, bookBody, row._id).subscribe(
-        data => {
+        data => {//process response data
           if (data.status === true){
             var body = new bookAddResponse();
             body = Object.assign(data.data)
 
-            //Add the returned book to the tables array.
-            
+            //retrieve latest books for data source             
             this.book.getBooks();
             console.log('Book added successfully');
             this.dialogRef.close();
-            location.reload()
           }
           else
           {
-            'Add book unsuccessful, please try again.'
+            console.log('Edit book unsuccessful, please try again.')
           }
         }
       )

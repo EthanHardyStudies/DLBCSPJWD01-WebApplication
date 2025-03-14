@@ -44,26 +44,32 @@ export class LoginComponent {
       private book: BooksService
     ) { }
 
+  //When login is clicked send the request to the http service for authentication on the API
   onSubmit(user: string, pass: string) {
     
     try {
       if (user && pass) {
+        //create url and body
         let body = '{ "username": "' + user +'", "password": "' + pass + '"}';
         var url = environment.baseUrl + "login"
         
+        //send to method in http service
         this.http.loginPost(url, JSON.parse(body), user, pass).subscribe(
           data => {
             if (data.status === true){
+              //process response data
               var body = new loginResponseMessage();
               body = Object.assign(data.data);
 
               var user = new userObject();
               user = Object.assign(JSON.parse(body.user.replace('[', '').replace(']', '')));
 
+              //save authToken, userID and userdata for use by other components and services
               this.auth.setToken(body.token);
               this.user.setUser(user._id);
               this.user.userData = user;
               console.log('Login successful');
+              //route to landing page after login
               this.router.navigate(['/booklist']);
             }
           }
