@@ -45,6 +45,20 @@ export class httpService {
     return response;
   }
 
+  genericPatch(url: string, body: any, id: string){
+    const authToken = this.authService.getToken();
+    var token = ""
+    if (authToken){ token = authToken}
+    let reqParams = new HttpParams()
+    reqParams = reqParams.set("id", id)
+
+    let reqHeaders = new HttpHeaders()
+    reqHeaders = reqHeaders.append("Authorization", 'Bearer ' + token);
+    reqHeaders = reqHeaders.append("Content-Type", "application/json");
+    let response = this.http.patch<Response>(url, body, { headers: reqHeaders, params: reqParams })
+    return response;
+  }
+
   genericDelete(url: string, id: string){
     const authToken = this.authService.getToken();
     var token = ""

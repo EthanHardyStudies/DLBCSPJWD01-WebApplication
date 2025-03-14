@@ -62,6 +62,7 @@ export class LoginComponent {
 
               this.auth.setToken(body.token);
               this.user.setUser(user._id);
+              this.user.userData = user;
               console.log('Login successful');
               this.router.navigate(['/booklist']);
             }

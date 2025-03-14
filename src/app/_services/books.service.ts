@@ -15,6 +15,7 @@ export class BooksService {
   public booksStatus = new BehaviorSubject<string>("0");
   public booksDeleteStatus = new BehaviorSubject<string>("0");
   public booksData = {};
+  public booksRow: any;
   
   constructor(
     private http: httpService,

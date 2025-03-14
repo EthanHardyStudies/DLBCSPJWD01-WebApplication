@@ -7,18 +7,28 @@ body {
     margin: 0;
     background-color: #f5f5f5;
   }
-
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 .booklist-table{
     background: rgb(115, 164, 238);
-    padding: 2rem;
+    padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    height: 70%;
-    margin-bottom: 5%;
+    height: 90%;
+    width: 95%;
+    overflow: auto;
 }
 .toolbar{
   background: rgb(115, 164, 238);
+  height: 65px;
+}
+.container{
+  margin-top: 0px;
+  overflow: auto;
+  background-color: #ffffff;
 }
 .spacer {
   flex: 1 1 auto;
@@ -33,13 +43,8 @@ body {
 .log-out{
   background: white;
   justify-content: center;
-  margin-top: 1rem;
+  margin: 1rem;
   border-radius: 10%;
-}
-.exit-text{
-  font-size: small;
-  padding-right: 1rem;
-  margin-bottom: 10%;
 }
 .log-out-container{
   justify-content: center;
@@ -47,7 +52,9 @@ body {
 }
 .booklist-controls{
   justify-content: center;
-  box-shadow: inset;
+  box-shadow: inset;    
+  flex-grow: 0.95;
+  overflow: 0;
 }
 .add-book{
   background: white;
@@ -86,6 +93,8 @@ body {
 .main-book-list{
   margin-top: 1rem;
   padding: 1rem;
+  height: 80%;
+  overflow: auto;
 }
 .action-Button{
   margin: 5px;

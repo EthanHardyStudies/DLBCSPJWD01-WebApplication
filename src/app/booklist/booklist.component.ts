@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -11,7 +11,13 @@ import { httpService } from '../_services/http.service';
 import { BooksService } from '../_services/books.service';
 import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { editBookDialog } from '../edit-book-dialog/edit-book-dialog.component'
+import { editBookDialog } from '../edit-book-dialog/edit-book-dialog.component';
+import { EditUserDialogComponent } from '../edit-user-dialog/edit-user-dialog.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+
 
 export interface DialogData {
   name: string;
@@ -27,11 +33,12 @@ class bookAddResponse {
 
 @Component({
   selector: 'app-booklist',
-  imports: [MatToolbarModule, MatTableModule, MatIconModule, MatFormFieldModule, MatDialogModule, MatProgressSpinnerModule],
+  imports: [MatToolbarModule, MatTableModule, MatIconModule, MatFormFieldModule, MatDialogModule, MatProgressSpinnerModule, 
+            MatMenuModule, MatButtonModule, MatTooltipModule, MatPaginatorModule],
   templateUrl: './booklist.component.html',
   styleUrl: './booklist.component.css'
 })
-export class BooklistComponent implements OnInit {
+export class BooklistComponent implements OnInit, AfterViewInit {
   constructor(
     public dialog: MatDialog,
     public book: BooksService,
@@ -41,7 +48,9 @@ export class BooklistComponent implements OnInit {
   Books: any = [];
   displayedColumns: string[] = ['name', 'description', 'author', 'price', 'delete'];  
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
-
+  
+  @ViewChild(MatPaginator) paginator: MatPaginator = new MatPaginator();
+  
   public booksStatus = "0";
   public booksDeleteStatus = "0";
   public booksData: any;
@@ -52,6 +61,9 @@ export class BooklistComponent implements OnInit {
     this.book.getBooks();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
   booksResponse(code: string){
 
     switch(code){
@@ -89,9 +101,16 @@ export class BooklistComponent implements OnInit {
     })
   }
 
-  OpenEditBookDialog(): void {
+  OpenEditBookDialog(row: any): void {
+    this.book.booksRow = row;
     const dialogRef = this.dialog.open(editBookDialog, {
       width: '25%'
+    })
+  }
+
+  OpenEditUserDialog(): void {
+    const dialogRef = this.dialog.open(EditUserDialogComponent, {
+      
     })
   }
 
