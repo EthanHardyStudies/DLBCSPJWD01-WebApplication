@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -17,6 +17,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
+import { NgFor, NgIf } from '@angular/common';
 
 
 export interface DialogData {
@@ -34,7 +36,7 @@ class bookAddResponse {
 @Component({
   selector: 'app-booklist',
   imports: [MatToolbarModule, MatTableModule, MatIconModule, MatFormFieldModule, MatDialogModule, MatProgressSpinnerModule, 
-            MatMenuModule, MatButtonModule, MatTooltipModule, MatPaginatorModule],
+            MatMenuModule, MatButtonModule, MatTooltipModule, MatPaginatorModule, MatCardModule, NgIf, NgFor],
   templateUrl: './booklist.component.html',
   styleUrl: './booklist.component.css'
 })
@@ -54,6 +56,13 @@ export class BooklistComponent implements OnInit, AfterViewInit {
   public booksStatus = "0";
   public booksDeleteStatus = "0";
   public booksData: any;
+  public mobile = false;
+
+  // Add host listener for responsive design
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkMobileView();
+  }
 
   //This initialisation method: 
   //1. Subscribes to behaviour subjects in the books service
@@ -63,6 +72,16 @@ export class BooklistComponent implements OnInit, AfterViewInit {
     this.book.booksStatus.subscribe(code => this.booksResponse(code));
     this.book.booksDeleteStatus.subscribe(code => this.booksDeleteResponse(code));
     this.book.getBooks();
+    if (window.screen.width < 1000000) { // 768px portrait
+      this.mobile = true;
+    }
+    this.checkMobileView();
+  }
+
+  // Method to determine mobile view
+  checkMobileView() {
+    this.mobile = window.innerWidth <= 768;
+   
   }
 
   //This method add a paginator to the table after the components view has been initialised.

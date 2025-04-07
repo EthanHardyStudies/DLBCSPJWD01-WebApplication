@@ -19,7 +19,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     height: 90%;
     width: 95%;
-    overflow: auto;
+    overflow: scroll;
 }
 .toolbar{
   background: rgb(115, 164, 238);
@@ -59,8 +59,8 @@ body {
 .add-book{
   background: white;
   align-items: center;
-  margin-left: 95%;
   border-radius: 10%;
+  width:auto;
 }
 .dialog-button {
   width: auto;
@@ -90,14 +90,55 @@ body {
   width: auto; 
   justify-content: center;
 }
-.main-book-list{
+.main-book-list-desktop{
   margin-top: 1rem;
   padding: 1rem;
   height: 80%;
   overflow: auto;
 }
+.main-book-list-mobile{
+  display: block;
+  margin-top: 1rem;
+  padding: 1rem;
+  height: 80%;
+  overflow: auto;  
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 .action-Button{
   margin: 5px;
   background: rgb(255, 255, 255);
   border-radius: 10%;
+}
+.mat-cell,
+.mat-header-cell {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: x-small;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+    text-align: left;
+    padding: 8px;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+/* Mobile Card View Specific Styles */
+.book-card {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.card-detail {
+  margin-bottom: 12px;
+}
+
+.card-detail strong {
+  display: block;
+  margin-bottom: 4px;
+  color: rgba(0, 0, 0, 0.7);
 }
