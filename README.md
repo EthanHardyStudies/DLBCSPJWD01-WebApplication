@@ -21,6 +21,14 @@ To start a local development server, run:
 ng serve
 ```
 
+On Windows client computers, the execution of PowerShell scripts is disabled by default. To allow the execution of PowerShell scripts, which is needed for npm global binaries, you must set the following execution policy:
+
+```bash
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+Carefully read the message displayed after executing the command and follow the instructions. Make sure you understand the implications of setting an execution policy.
+
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
 ## Additional Resources
